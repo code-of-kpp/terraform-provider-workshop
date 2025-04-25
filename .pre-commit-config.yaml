@@ -1,0 +1,107 @@
+---
+repos:
+  - repo: meta
+    hooks:
+      - id: check-hooks-apply
+      - id: check-useless-excludes
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-illegal-windows-names
+      - id: check-shebang-scripts-are-executable
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-vcs-permalinks
+      - id: destroyed-symlinks
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+      - id: forbid-new-submodules
+      - id: mixed-line-ending
+      - id: pretty-format-json
+        args:
+          - --no-ensure-ascii
+          - --autofix
+      - id: trailing-whitespace
+  - repo: https://github.com/golangci/golangci-lint
+    rev: v2.1.1
+    hooks:
+      - id: golangci-lint
+        entry: >
+          sh -c "
+            find . -maxdepth 2 -type f -name go.mod | \
+            sed 's/go.mod//; s@^./@@' | \
+            xargs --replace --no-run-if-empty \
+            sh -c 'cd {}; golangci-lint run'
+          "
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.99.0
+    hooks:
+      - id: terraform_fmt
+  - repo: https://github.com/jorisroovers/gitlint
+    rev: v0.19.1
+    hooks:
+      - id: gitlint
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.3
+    hooks:
+      - id: gitleaks
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.31.1
+    # rev: v1.31.1
+    hooks:
+      - id: typos
+        args: []
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.1
+    hooks:
+      - id: codespell
+        args:
+          - --exclude-file=_typos.toml
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.44.0
+    hooks:
+      - id: markdownlint-fix
+        args:
+          - --disable=no-hard-tabs
+          - --disable=no-inline-html
+          - --disable=single-h1
+          - --disable=no-duplicate-heading
+  - repo: https://github.com/jackdewinter/pymarkdown
+    rev: v0.9.29
+    hooks:
+      - id: pymarkdown
+        args:
+          - "--set"
+          - "extensions.front-matter.enabled=$!True"
+          - "-d"
+          - no-hard-tabs,single-h1,no-inline-html,no-duplicate-heading
+          - scan
+  - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+    rev: 0.2.3
+    hooks:
+      - id: yamlfmt
+        args:
+          - --width=88
+          - --mapping=2
+          - --sequence=4
+          - --offset=2
+          - --preserve-quotes
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.37.0
+    hooks:
+      - id: yamllint
+        args:
+          - --strict
+          - -d
+          - "{extends: default, rules: {line-length: {max: 88}}}"
+  - repo: https://github.com/yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+  - repo: https://github.com/trufflesecurity/trufflehog
+    rev: v3.88.23
+    hooks:
+      - id: trufflehog

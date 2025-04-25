@@ -1,0 +1,1 @@
+../../../01-solution/internal/provider/valid_path_function.go

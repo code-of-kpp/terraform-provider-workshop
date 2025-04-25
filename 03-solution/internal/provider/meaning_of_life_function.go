@@ -1,0 +1,1 @@
+../../../01-solution/internal/provider/meaning_of_life_function.go

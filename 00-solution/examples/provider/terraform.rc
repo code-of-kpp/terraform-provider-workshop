@@ -1,0 +1,6 @@
+provider_installation {
+  dev_overrides {
+    "registry.opentofu.org/example/playground" = "../../"
+  }
+  direct {}
+}
